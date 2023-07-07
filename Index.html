@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <div class="calculator-container">
+    <div class="display">
+      <input type="text" id="result" disabled>
+    </div>
+    <div class="buttons">
+      <button class="number" onclick="appendNumber('7')">7</button>
+      <button class="number" onclick="appendNumber('8')">8</button>
+      <button class="number" onclick="appendNumber('9')">9</button>
+      <button class="operator" onclick="appendOperator('+')">+</button>
+      <button class="number" onclick="appendNumber('4')">4</button>
+      <button class="number" onclick="appendNumber('5')">5</button>
+      <button class="number" onclick="appendNumber('6')">6</button>
+      <button class="operator" onclick="appendOperator('-')">-</button>
+      <button class="number" onclick="appendNumber('1')">1</button>
+      <button class="number" onclick="appendNumber('2')">2</button>
+      <button class="number" onclick="appendNumber('3')">3</button>
+      <button class="operator" onclick="appendOperator('*')">*</button>
+      <button class="number" onclick="appendNumber('0')">0</button>
+      <button class="number" onclick="appendNumber('.')">.</button>
+      <button class="equals" onclick="calculate()">=</button>
+      <button class="operator" onclick="appendOperator('/')">/</button>
+      <button class="clear" onclick="clearDisplay()">C</button>
+    </div>
+  </div>
+
+  <script>
+    var currentExpression = "";
+
+function appendNumber(number) {
+  currentExpression += number;
+  document.getElementById("result").value = currentExpression;
+}
+
+function appendOperator(operator) {
+  currentExpression += " " + operator + " ";
+  document.getElementById("result").value = currentExpression;
+}
+
+function calculate() {
+  try {
+    var sanitizedExpression = currentExpression.replace(/[^-()\d/*+.]/g, '');
+    var result = eval(sanitizedExpression);
+    
+    if (result !== undefined && result !== null && !isNaN(result)) {
+      document.getElementById("result").value = result;
+      currentExpression = result.toString();
+    } else {
+      throw new Error("Invalid expression");
+    }
+  } catch (error) {
+    document.getElementById("result").value = "Error";
+    currentExpression = "";
+  }
+}
+
+function clearDisplay() {
+  currentExpression = "";
+  document.getElementById("result").value = "";
+}
+
+
+  </script>
+</body>
+</html>
